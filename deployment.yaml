@@ -18,6 +18,8 @@ kind: StatefulSet
 metadata:
   name: user-shell-statefulset
   namespace: lab
+  labels:
+    kbash: "true"
 spec:
   serviceName: "user-shell-service"
   replicas: 1
@@ -28,6 +30,7 @@ spec:
     metadata:
       labels:
         app: user-shell
+        kbash: "true"
     spec:
       containers:
         - name: user-shell-container
