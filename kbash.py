@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
+#!/usr/bin/env python3
 import argparse
 from kbash_bash import kexec_and_run_bash
 from kbash_rename import rename_statefulset
 from kbash_list import list_kbash_containers, list_kbash_statefulsets
 from kbash_run import create_stateful_set
-from kbash_show_containers import show_kbash_containers  # Import the function
+from kbash_show_containers import show_kbash_containers
+from kbash_delete import delete_stateful_set  # Import the delete function
 
 def main():
     parser = argparse.ArgumentParser(description="Manage kbash StatefulSets and Pods.")
@@ -16,6 +18,7 @@ def main():
     parser.add_argument("--stateful", action="store_true", help="List all kbash managed StatefulSets.")
     parser.add_argument("--run", nargs=2, metavar=('NAME', 'CONTAINER_PATH'), help="Create a StatefulSet with the given NAME and CONTAINER_PATH.")
     parser.add_argument("--show-containers", action="store_true", help="Show all uniquely used containers with label 'kbash'.")
+    parser.add_argument("--delete", metavar='NAME', help="Delete the StatefulSet with the given NAME.")
 
     args = parser.parse_args()
 
@@ -33,6 +36,8 @@ def main():
         create_stateful_set(args.namespace, name, container_image)
     elif args.show_containers:
         show_kbash_containers(args.namespace)
+    elif args.delete:
+        delete_stateful_set(args.namespace, args.delete)
     else:
         print("Error: You must provide a valid argument. Use --help to see available options.")
 

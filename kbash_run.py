@@ -18,6 +18,7 @@ spec:
     metadata:
       labels:
         app: {name}
+        kbash: "true"
     spec:
       containers:
       - name: {name}-container
