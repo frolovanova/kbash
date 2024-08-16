@@ -6,7 +6,8 @@ from kbash_list import list_kbash_containers, list_kbash_statefulsets
 from kbash_run import create_stateful_set
 from kbash_show_containers import show_kbash_containers
 from kbash_delete import delete_stateful_set
-from kbash_jobs import list_kbash_cronjobs, create_kbash_cronjob  # Import the CronJob functions
+from kbash_jobs import list_kbash_cronjobs, create_kbash_cronjob
+from kbash_scale import scale_stateful_set  # Import the scale function
 
 def main():
     parser = argparse.ArgumentParser(description="Manage kbash StatefulSets, Pods, and CronJobs.")
@@ -21,6 +22,7 @@ def main():
     parser.add_argument("--delete", metavar='NAME', help="Delete the StatefulSet with the given NAME.")
     parser.add_argument("--job-list", action="store_true", help="List all Kubernetes CronJobs with the label 'kbash'.")
     parser.add_argument("--job-run", nargs=3, metavar=('NAME', 'CONTAINER_PATH', 'CRON_SCHEDULE'), help="Create a CronJob with the given NAME, CONTAINER_PATH, and CRON_SCHEDULE.")
+    parser.add_argument("--scale", nargs=2, metavar=('NAME', 'NUMBER'), help="Scale the StatefulSet with the given NAME to the specified NUMBER of replicas.")
 
     args = parser.parse_args()
 
@@ -46,6 +48,9 @@ def main():
         name, container_image, schedule = args.job_run
         command = ["sh", "-c", "echo Hello World"]  # Replace this with your desired command
         create_kbash_cronjob(args.namespace, name, container_image, command, schedule)
+    elif args.scale:
+        name, replicas = args.scale
+        scale_stateful_set(args.namespace, name, replicas)
     else:
         print("Error: You must provide a valid argument. Use --help to see available options.")
 
