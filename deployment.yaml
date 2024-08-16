@@ -35,7 +35,7 @@ spec:
           imagePullPolicy: Always
           command: ["python", "-u", "/opt/startup.py"]
           volumeMounts:
-            - mountPath: /home/user
+            - mountPath: /home/user/<username>
               name: user-storage
           stdin: true
           tty: true
