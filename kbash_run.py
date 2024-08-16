@@ -21,10 +21,11 @@ spec:
         kbash: "true"
     spec:
       containers:
-      - name: {name}-container
+      - name: default
         image: {container_image}
         ports:
         - containerPort: 80
+        command: ['sh', '-c', 'while true; do sleep 30; done']
   volumeClaimTemplates:
   - metadata:
       name: {name}-pvc

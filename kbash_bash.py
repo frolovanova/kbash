@@ -5,7 +5,7 @@ def kexec_and_run_bash(namespace, pod_name, container_name):
     try:
         command = [
             'kubectl', 'exec', '-it', pod_name, '-n', namespace, '-c', container_name,
-            '--', 'bash', '-c', f'mkdir -p /home/user/{pod_name} && cd /home/user/{pod_name} && exec bash'
+            '--', 'bash', '-c', f'mkdir -p /home/user/{pod_name} && cd /home/user/{pod_name} && exec bash || exec bash'
         ]
         subprocess.check_call(command)
     except subprocess.CalledProcessError as e:
