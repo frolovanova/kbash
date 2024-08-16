@@ -2,7 +2,7 @@
 import argparse
 from kbash_bash import kexec_and_run_bash
 from kbash_rename import rename_statefulset
-from kbash_list import list_kbash_containers
+from kbash_list import list_kbash_containers, list_kbash_statefulsets
 
 def main():
     parser = argparse.ArgumentParser(description="Manage kbash StatefulSets and Pods.")
@@ -11,6 +11,7 @@ def main():
     parser.add_argument("--pod_name", help="The name of the Pod to exec into.")
     parser.add_argument("--container_name", default="user-shell-container", help="The container name within the Pod to exec into (default: 'user-shell-container').")
     parser.add_argument("--list", action="store_true", help="List all kbash managed containers.")
+    parser.add_argument("--stateful", action="store_true", help="List all kbash managed StatefulSets.")
 
     args = parser.parse_args()
 
@@ -22,8 +23,10 @@ def main():
         kexec_and_run_bash(args.namespace, args.pod_name, args.container_name)
     elif args.list:
         list_kbash_containers(args.namespace)
+    elif args.stateful:
+        list_kbash_statefulsets(args.namespace)
     else:
-        print("Error: You must provide either --rename to rename a StatefulSet, --pod_name to exec into a Pod's bash, or --list to list kbash managed containers.")
+        print("Error: You must provide either --rename to rename a StatefulSet, --pod_name to exec into a Pod's bash, --list to list kbash managed containers, or --stateful to list kbash managed StatefulSets.")
 
 if __name__ == "__main__":
     main()
